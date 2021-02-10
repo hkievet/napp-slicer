@@ -12,9 +12,10 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
 import "./App.css";
+import TimeDisplay from "./TimeDisplay";
 import useInterval from "./useInterval";
 
-const SAMPLE_SONG_URL = "http://localhost:3333/static/song.wav";
+const SAMPLE_SONG_URL = "http://localhost:3333/static/question_mark.wav";
 
 interface AppState {
   currentTime: number | undefined;
@@ -67,7 +68,10 @@ function App() {
       <Center mt={10}>
         <Box>
           <Text as="h1" fontSize="xl" mb={6}>
-            Custom music controls for {SAMPLE_SONG_URL}
+            Custom music controls app
+          </Text>
+          <Text as="p" mb={3}>
+            {SAMPLE_SONG_URL}
           </Text>
           <Box>
             <audio ref={audioRef as any} src={SAMPLE_SONG_URL}></audio>
@@ -87,6 +91,10 @@ function App() {
               </SliderTrack>
               <SliderThumb />
             </Slider>
+            <Text mb={4}>
+              <TimeDisplay seconds={audioRef?.current?.currentTime || 0} /> of{" "}
+              <TimeDisplay seconds={audioRef?.current?.duration || 0} />
+            </Text>
             <ButtonGroup>
               <Button onClick={pause}>Pause</Button>
               <Button onClick={play}>Play</Button>
@@ -94,12 +102,8 @@ function App() {
             <Box width="300px" mt={5}>
               <Text fontSize={"large"}>Diagnostics</Text>
               <Text>State.currentTime: {state?.currentTime}</Text>
-              <Text>
-                Time into song:{" "}
-                {currentPercentageDone.toString(10).substr(0, 5)}
-              </Text>
               <Text>Current Time: {audioRef?.current?.currentTime}</Text>
-              <Text>Total Length: {audioRef?.current?.duration}</Text>
+              <Text>Duration: {audioRef?.current?.duration}</Text>
             </Box>
           </Box>
         </Box>
